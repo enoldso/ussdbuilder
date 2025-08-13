@@ -18,7 +18,10 @@ import {
   FileText,
   Smartphone,
   Settings,
-  Server
+  Server,
+  DollarSign,
+  BarChart3,
+  Layout
 } from "lucide-react";
 
 export function ComponentToolbox() {
