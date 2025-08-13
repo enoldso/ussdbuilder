@@ -13,8 +13,10 @@ import {
   MiniMap,
   NodeChange,
   EdgeChange,
+  NodeTypes,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { nodeTypes } from './nodeTypes';
 
 interface FlowCanvasProps {
   nodes: Node[];
@@ -30,23 +32,33 @@ interface FlowCanvasProps {
   className?: string;
 }
 
+// Node color mapping for the minimap
 const nodeColor = (node: Node) => {
-  switch (node.type) {
-    case 'menu-screen':
-      return '#3B82F6';
-    case 'input-field':
-      return '#2563EB';
-    case 'payment-option':
-      return '#10B981';
-    case 'conditional-branch':
-      return '#F59E0B';
-    case 'api-integration':
-      return '#8B5CF6';
-    case 'end-screen':
-      return '#EF4444';
-    default:
-      return '#6B7280';
-  }
+  const colorMap: Record<string, string> = {
+    // Basic Components
+    'menu-screen': '#3B82F6',    // Blue
+    'input-field': '#10B981',    // Emerald
+    'end-screen': '#EF4444',     // Red
+    
+    // Logic & Control
+    'conditional-branch': '#8B5CF6', // Violet
+    'switch': '#7C3AED',         // Violet (darker)
+    'validation': '#F59E0B',     // Amber
+    
+    // Data Operations
+    'database-query': '#7C3AED', // Violet
+    'api-call': '#0EA5E9',      // Sky
+    'api-integration': '#06B6D4', // Cyan
+    
+    // Payment & Transactions
+    'payment-option': '#10B981', // Green
+    
+    // System
+    'function': '#EC4899',      // Pink
+    'terminal': '#64748B',      // Slate
+  };
+  
+  return colorMap[node.type || 'default'] || '#6B7280';
 };
 
 export function FlowCanvas({
@@ -118,13 +130,13 @@ export function FlowCanvas({
         onPaneClick={handlePaneClick}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        connectionLineStyle={{
-          stroke: '#2563EB',
-          strokeWidth: 2,
-        }}
+        nodeTypes={nodeTypes}
+        fitView
+        className={className}
         defaultEdgeOptions={{
+          animated: true,
           style: {
-            stroke: '#2563EB',
+            stroke: '#94A3B8',
             strokeWidth: 2,
           },
           markerEnd: {

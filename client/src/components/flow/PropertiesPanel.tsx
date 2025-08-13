@@ -5,10 +5,24 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomNode } from "@/lib/flowTypes";
-import { X, Settings, CheckCircle } from "lucide-react";
+import { 
+  X, 
+  Settings, 
+  CheckCircle, 
+  Plus, 
+  Minus,
+  Database,
+  Globe,
+  GitBranch,
+  ListTodo,
+  Code2,
+  Terminal
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PropertiesPanelProps {
   selectedNode: CustomNode | null;
@@ -40,6 +54,10 @@ export function PropertiesPanel({ selectedNode, onUpdateNode }: PropertiesPanelP
       onUpdateNode(selectedNode.id, newData);
     }
   };
+
+  // =====================
+  // Property Panel Renderers
+  // =====================
 
   const renderMenuScreenProperties = () => (
     <div className="space-y-4">
@@ -505,56 +523,10 @@ export function PropertiesPanel({ selectedNode, onUpdateNode }: PropertiesPanelP
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6">
-          {/* Component Info */}
-          <Card className="mb-6 bg-primary-50 border-primary-200">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <i className={`${getComponentIcon(selectedNode.data.label)} text-white`}></i>
-                </div>
-                <div>
-                  <h3 className="font-medium text-slate-900" data-testid="text-component-name">
-                    {selectedNode.data.label}
-                  </h3>
-                  <p className="text-sm text-slate-600" data-testid="text-component-type">
-                    {selectedNode.data.description || 'USSD component'}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Basic Settings */}
-          <div className="space-y-6">
-            <div>
-              <Label>Component Name</Label>
-              <Input
-                value={localData.label || ""}
-                onChange={(e) => updateProperty(["label"], e.target.value)}
-                data-testid="input-component-name"
-              />
-            </div>
-
-            <div>
-              <Label>Description</Label>
-              <Textarea
-                value={localData.description || ""}
-                onChange={(e) => updateProperty(["description"], e.target.value)}
-                placeholder="Enter component description..."
-                data-testid="textarea-component-description"
-              />
-            </div>
-
-            <Separator />
-
-            {/* Component-specific Properties */}
-            <div>
-              <h4 className="font-medium text-slate-900 mb-4">Component Settings</h4>
-              {renderPropertiesForType()}
-            </div>
-          </div>
+      <div className="flex-1 overflow-auto p-6">
+        <div>
+          <h4 className="font-medium text-slate-900 mb-4">Component Settings</h4>
+          {renderPropertiesForType()}
         </div>
       </div>
 
